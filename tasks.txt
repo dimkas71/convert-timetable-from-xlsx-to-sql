@@ -1,2 +1,3 @@
+0. using regex lib it needs to parse a personnel number of type "00/0010" 
 1. read xlsx to List of data
 2. write sqlite data
