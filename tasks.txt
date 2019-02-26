@@ -1,0 +1,2 @@
+1. read xlsx to List of data
+2. write sqlite data
