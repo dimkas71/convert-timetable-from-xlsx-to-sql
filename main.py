@@ -17,21 +17,23 @@ PN_PATTERN = "\d{2}\/\d{4}"
 
 
 if (__name__ == '__main__'):
-    wb = load_workbook(filename = "files/Алина.xlsx", read_only = True)
+    wb = load_workbook(filename = "files/Лютий_2019_Оксана_values.xlsx", read_only = True)
 
     sheet_names = wb.sheetnames
 
-    #for sheet_name in sheet_names:
-    ws = wb["21"]
-    for row in ws.rows:
-        for cell in row:
-            if cell.value is not None:
-                print(cell.value)
+    pattern = re.compile(PN_PATTERN)
 
+    for sheet_name in sheet_names:
+        print(sheet_name)
+        ws = wb[sheet_name]
+        max_row = wb[sheet_name].max_row
+        max_column = wb[sheet_name].max_column
 
-    pattern = re.compile(PN_PATTERN) 
-    print(pattern.match(CORRECT_PN))
-    print(pattern.match(INCORRECT_PN))
-    print("Hello world")
+        for row_num in range(1, max_row + 1):
+            for col_num in range(1, max_column + 1):
+                cell = ws.cell(row = row_num, column = col_num)
+                value = cell.value
 
-    [print(pattern.match(x)) for x in CORRECT_PN_LIST]
+                if (value is not None) and (type(value) is str):
+                    print(col_num)
+    
