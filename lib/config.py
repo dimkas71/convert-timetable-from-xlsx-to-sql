@@ -1,5 +1,5 @@
 class Config:
-    def __init__(self, file = "", sheet = "", col_pn = 3, col_name = 2, col_position = 4, col_first_day = 6, row_from = 0, row_to = 0 ):
+    def __init__(self, file = "", sheet = "", col_pn = 3, col_name = 2, col_position = 4, col_first_day = 6, row_from = 10, row_to = 0 ):
         self.file = file
         self.sheet = sheet
         self.col_pn = col_pn

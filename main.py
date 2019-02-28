@@ -5,7 +5,6 @@ import re
 CORRECT_PN = "00/0010"
 INCORRECT_PN = "0d/0001"
 
-
 CORRECT_PN_LIST = [
     "00/0012",
     "10/1012",
@@ -13,8 +12,6 @@ CORRECT_PN_LIST = [
 ]
 
 PN_PATTERN = "\d{2}\/\d{4}"
-
-
 
 if (__name__ == '__main__'):
     wb = load_workbook(filename = "files/Лютий_2019_Оксана_values.xlsx", read_only = True)
