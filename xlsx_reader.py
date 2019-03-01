@@ -10,6 +10,7 @@ if (__name__ == '__main__'):
     parser = argparse.ArgumentParser(description="Read xlsx files to objects")
     parser.add_argument("-f", "--file", dest = "file", type = str, help = "json file with configuration info")
     parser.add_argument("-m", "--month", dest = "month", type = int, help = "a month for data loading")
+    parser.add_argument("-db", "--db", dest = "db", type = str, help = "An output database")
 
     
 
@@ -73,7 +74,7 @@ if (__name__ == '__main__'):
     
     INSERT_SQL_EXPRESSION = "insert into timetable(pn, name, position, department, dt, value) values (?, ?, ?, ?, ?, ?)"
     
-    con = sqlite3.connect("test.db")
+    con = sqlite3.connect(args.db)
     with con:
         for pi in personnel_infos:
             for k, v in pi.timetable.items():
@@ -81,7 +82,7 @@ if (__name__ == '__main__'):
                     value = ""
                     for code, time in v:
                         if not code in NO_VALUES_LIST:
-                            value = value + str(code) + " " +  time #TODO: replace time on if time is None "" else time   
-                    con.execute(INSERT_SQL_EXPRESSION, (pi.personnelNum, pi.name, pi.position, pi.department, datetime.date(2019, 2, int(k)), value,))
+                            value = value + str(code) + " " + str( 0 if time is None else time) + ";"
+                    con.execute(INSERT_SQL_EXPRESSION, (pi.personnelNum, pi.name, pi.position, pi.department, datetime.date(2019, 2, int(k)).strftime("%d.%m.%Y"), value,))
 
     
