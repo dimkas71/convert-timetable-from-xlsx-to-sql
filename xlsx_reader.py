@@ -5,17 +5,25 @@ from openpyxl import load_workbook
 from lib.config import EmployeeInfo
 
 if (__name__ == '__main__'):
+    import calendar
 
     parser = argparse.ArgumentParser(description="Read xlsx files to objects")
     parser.add_argument("-f", "--file", dest = "file", type = str, help = "json file with configuration info")
+    parser.add_argument("-m", "--month", dest = "month", type = int, help = "a month for data loading")
+
+    
 
     args = parser.parse_args()
 
     config_list = None
+    first, last = (None, None)
 
     if (args.file):
         with open(args.file, 'r', encoding = "utf-8") as fp:
             config_list = json.load(fp)
+
+        if (args.month):
+            first, last = calendar.monthrange(2019, args.month) 
 
     personnel_infos = []
     STEP = 4
@@ -35,7 +43,7 @@ if (__name__ == '__main__'):
                 timetable = {}
 
 
-                for day_index in range(0, 31):
+                for day_index in range(0, last):
                     list_times = []
                     code = getattr(ws.cell(row = row_num, column = config["col_first_day"] + day_index), "value", "")
                     hours = getattr(ws.cell(row = row_num + 1, column = config["col_first_day"] + day_index), "value", "")
@@ -70,10 +78,10 @@ if (__name__ == '__main__'):
         for pi in personnel_infos:
             for k, v in pi.timetable.items():
                 if len(v) != 0:
-                    value = "Р 8"
+                    value = ""
                     for code, time in v:
-                        pass
-                        #value = v        
+                        if not code in NO_VALUES_LIST:
+                            value = value + str(code) + " " +  time #TODO: replace time on if time is None "" else time   
                     con.execute(INSERT_SQL_EXPRESSION, (pi.personnelNum, pi.name, pi.position, pi.department, datetime.date(2019, 2, int(k)), value,))
 
     
