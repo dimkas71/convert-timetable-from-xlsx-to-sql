@@ -2,7 +2,7 @@ import sqlite3, argparse
 
 SQL_CREATE_TABLE = """
     CREATE TABLE timetable (
-        pn text, name text, position text, department text, dt date, value text
+        id integer, pn text, name text, position text, department text, dt date, value text
     )
 """
 

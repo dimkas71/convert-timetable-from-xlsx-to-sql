@@ -72,8 +72,10 @@ if (__name__ == '__main__'):
         
     TIME_SEPARATOR = ";"
     
-    INSERT_SQL_EXPRESSION = "insert into timetable(pn, name, position, department, dt, value) values (?, ?, ?, ?, ?, ?)"
+    INSERT_SQL_EXPRESSION = "insert into timetable(id, pn, name, position, department, dt, value) values (?, ?, ?, ?, ?, ?, ?)"
     
+    id = 0
+
     con = sqlite3.connect(args.db)
     with con:
         for pi in personnel_infos:
@@ -83,6 +85,7 @@ if (__name__ == '__main__'):
                     for code, time in v:
                         if not code in NO_VALUES_LIST:
                             value = value + str(code) + " " + str( 0 if time is None else time) + ";"
-                    con.execute(INSERT_SQL_EXPRESSION, (pi.personnelNum, pi.name, pi.position, pi.department, datetime.date(2019, 2, int(k)).strftime("%d.%m.%Y"), value,))
+                    con.execute(INSERT_SQL_EXPRESSION, (id, pi.personnelNum, pi.name, pi.position, pi.department, datetime.date(2019, 2, int(k)).strftime("%d.%m.%Y"), value,))
+                    id = id + 1
 
     
